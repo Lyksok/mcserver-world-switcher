@@ -6,6 +6,10 @@ def load_json(path)->dict:
         data = json.load(f)
         return data
 
+# Import world data
+def load_world_json(data, world_name):
+    return data["worlds"][world_name]
+
 # Switch server.properties
 
 # Create new world
@@ -14,7 +18,9 @@ def load_json(path)->dict:
 
 # Boot minecraft server
 
+# Edit config
 
+# Edit world specific config
 
 # Main script
 def Main():
