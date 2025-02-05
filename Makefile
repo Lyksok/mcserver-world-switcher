@@ -1,11 +1,22 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -fsanitize=address -g
-SRC = server_loader.c server_selector.c main.c
-TARGET = McSwitchServer.out
+CFLAGS = -Wall -Wextra -Werror -g
+SRC_DIR = src
+OBJ_DIR = obj
 
-all: $(TARGET)
+SRCS = $(SRC_DIR)/main.c $(SRC_DIR)/server_loader.c $(SRC_DIR)/server_selector.c
+OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+DEPS = $(SRC_DIR)/server_loader.h $(SRC_DIR)/server_selector.h
 
-$(TARGET): $(SRC)
-    $(CC) $(SRC) -o $(TARGET) $(CFLAGS)
+TARGET = main
 
-.PHONY: all clean
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(DEPS)
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) $^ -o $@
+
+.PHONY: clean
+clean:
+	rm -rf $(OBJ_DIR) $(TARGET)
+

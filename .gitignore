@@ -1,0 +1,14 @@
+# Ignore compiled binaries and object files
+/bin/
+/build/
+
+# Ignore editor and OS-specific files
+*.swp
+*.swo
+*.bak
+.DS_Store
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+

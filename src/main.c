@@ -5,7 +5,10 @@ char* server_launch_cmd = "screen -t mcserver -d -m java -Xms6144M -Xmx6144M --a
 
 int main(int argc, char** argv)
 {
+    // Check filesystem
+
     // List servers
+
     // Choose server
     char* jar_file = 
     // Boot menu
