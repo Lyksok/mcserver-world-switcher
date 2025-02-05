@@ -4,6 +4,7 @@
 
 char* list_servers(char* path)
 {
-    
+    (void)path;
+    return NULL;
 }
 

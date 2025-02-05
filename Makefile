@@ -1,22 +1,31 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
 SRC_DIR = src
-OBJ_DIR = obj
+BUILD_DIR = build
+INCLUDE_DIR = include
+BIN_DIR = bin
 
-SRCS = $(SRC_DIR)/main.c $(SRC_DIR)/server_loader.c $(SRC_DIR)/server_selector.c
-OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
-DEPS = $(SRC_DIR)/server_loader.h $(SRC_DIR)/server_selector.h
+SRCS = $(wildcard $(SRC_DIR)/*.c)
+OBJS = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRCS))
+DEPS = $(wildcard $(INCLUDE_DIR)/*.h)
 
-TARGET = main
+TARGET = $(BIN_DIR)/main
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(DEPS)
-	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+# Ensure build directory exists before compiling
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
 
-$(TARGET): $(OBJS)
+$(TARGET): $(OBJS) | $(BIN_DIR)
 	$(CC) $(CFLAGS) $^ -o $@
+
+# Ensure directories exist
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
+
+$(BIN_DIR):
+	mkdir -p $(BIN_DIR)
 
 .PHONY: clean
 clean:
-	rm -rf $(OBJ_DIR) $(TARGET)
+	rm -rf $(BUILD_DIR) $(BIN_DIR)
 
